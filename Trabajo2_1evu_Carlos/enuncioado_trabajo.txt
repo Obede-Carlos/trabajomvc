@@ -1,0 +1,18 @@
+fichero .sql -> bbdd
+
+fichero xml -> contiene datos
+
+1- crear la bbdd : importar el .sql en phpmyadmin
+
+2- Lere los datos : nombre ,apellido ... del xml y trabajar con ellos 
+    son una precarga de datos.
+
+
+3- login (credeniales) .
+    -verificar las password.
+
+    metodo php : password_hash
+
+4- crear usuario.
+crear un home para crear otros usuarios eliminar o modificar
+
