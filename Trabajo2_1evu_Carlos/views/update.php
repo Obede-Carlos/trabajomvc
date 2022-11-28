@@ -6,19 +6,48 @@
     <title>pagina de insercion</title>
 </head>
 <body>
-    <h1>Pagina de insercion de datos.</h1>
+    <h2>formulario de actualizacion de personas.</h2>
+    <form action="?method=alterPersona" method="post">
+    <p>
+        <label for="nombreusu">Nombre:</label>
+        <input type="text" name="nombre" id="nombre">
+    </p>
+    <p>
+        <label for="apellidos">Apellidos:</label>
+        <input type="text" name="password" id="password">
+    </p>
+    <p>
+        <label for="direccion">Direccion:</label>
+        <input type="text" name="direccion" id="direccion">
+    </p>
+    <p>
+        <label for="telefono">Telefono:</label>
+        <input type="text" name="telefono" id="telefono">
+    </p>
+        <input type="submit" value="Actualizar">
+    </form>
+    
     <hr>
-    <h2>Insertar un nuevo contacto tipo persona</h2>
-    <form action="home.php" method="post">
+
+    <h2>formulario de actualizacion de empresas.</h2>
+    <form action="?method=alterEmpresa" method="post">
     <p>
-        <label for="nuevousu">Nuevo Usuario:</label>
-        <input type="text" name="nuevousu" id="nuevousu">
+        <label for="nombre">Nombre:</label>
+        <input type="text" name="nombre" id="nombre">
     </p>
     <p>
-        <label for="newpassword">Nueva Constraseña:</label>
-        <input type="password" name="newpassword" id="newpassword">
+        <label for="direccion">Direccion:</label>
+        <input type="text" name="direccion" id="direccion">
     </p>
-        <input type="submit" value="Insertar">
+    <p>
+        <label for="telefono">Telefono:</label>
+        <input type="text" name="telefono" id="telefono">
+    </p>
+    <p>
+        <label for="email">Email:</label>
+        <input type="text" name="email" id="email">
+    </p>
+        <input type="submit" value="Actualizar">
     </form>
 </body>
 </html>

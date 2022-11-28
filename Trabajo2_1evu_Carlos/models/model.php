@@ -1,6 +1,6 @@
 <?php
 
-const DSN = 'mysql:dbname=mvc;host=db';
+const DSN = 'mysql:dbname=agenda;host=db';
 const USER = 'root';
 const PASSWORD = 'password';
 

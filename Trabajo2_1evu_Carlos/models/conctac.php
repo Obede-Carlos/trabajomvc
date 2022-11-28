@@ -10,80 +10,130 @@ class contact {
     {
 
     }
-
-    public static function all()
+    public function run()
     {
-        $db = model::db();
-        $statement = $db->query('SELECT * FROM users');
-        $users = $statement->fetchAll(PDO::FETCH_CLASS, User::class);
-
-        return $users;
+      if (isset($_GET['method'])) {
+        $method = $_GET['method'];
+      } else {
+        $method = 'index';
+      }
+      $this->$method();
     }
 
-    public static function find($id)
+    public static function all_personas()
     {
         $db = model::db();
-        $stmt = $db->prepare('SELECT * FROM users WHERE id=:id');
-        $stmt->execute(array(':id' => $id));
-        $stmt->setFetchMode(PDO::FETCH_CLASS, User::class);
-        $user = $stmt->fetch(PDO::FETCH_CLASS);
-        return $user;
+        $statement = $db->query('SELECT * FROM personas');
+        $contactos = $statement->fetchAll(PDO::FETCH_CLASS, contact::class);
+        return $contactos;
+    }
+
+    public static function all_empresas()
+    {
+        $db = model::db();
+        $statement = $db->query('SELECT * FROM empresas');
+        $contactos = $statement->fetchAll(PDO::FETCH_CLASS, contact::class);
+        return $contactos;
+    }
+
+    public static function find_persona($nombre)
+    {
+        $db = model::db();
+        $stmt = $db->prepare('SELECT * FROM personas WHERE nombre =:nombre');
+        $stmt->execute(array(':nombre' => $nombre));
+        $stmt->setFetchMode(PDO::FETCH_CLASS, contact::class);
+        $contacto = $stmt->fetch(PDO::FETCH_CLASS);
+        return $contacto;
+    }
+
+    public static function find_empresa($nombre)
+    {
+        $db = model::db();
+        $stmt = $db->prepare('SELECT * FROM empresas WHERE nombre =:nombre');
+        $stmt->execute(array(':nombre' => $nombre));
+        $stmt->setFetchMode(PDO::FETCH_CLASS, contact::class);
+        $contacto = $stmt->fetch(PDO::FETCH_CLASS);
+        return $contacto;
     }
 
     public function insertPersona()
     {
+        $contact = new contact();
         $db = model::db();
-        $stmt = $db->prepare('INSERT INTO users(name, surname, birthdate, email) VALUES(:name, :surname, :birthdate, :email)');
-        $stmt->bindValue(':name', $this->name);
-        $stmt->bindValue(':surname', $this->surname);
-        $stmt->bindValue(':birthdate', $this->birthdate);
-        $stmt->bindValue(':email', $this->email);
-        return $stmt->execute();
+        $sql = $db->prepare('INSERT INTO personas (nombre, apellidos, direccion, telefono) VALUES(:nombre, :apellidos, :direccion, :telfono)');
+        $nombre = $_POST["nombre"];
+        $sql->bindValue(':nombre', $nombre);
+        $apellidos = $_POST["apellidos"];
+        $sql->bindValue(':apellidos', $apellidos);
+        $direccion = $_POST["direccion"];
+        $sql->bindValue(':direccion', $direccion);
+        $telefono = $_POST["telefono"];
+        $sql->bindValue(':telefono', $telefono);
+        $sql->execute();
     }
     public function insertEmpresa()
     {
         $db = model::db();
-        $stmt = $db->prepare('INSERT INTO users(name, surname, birthdate, email) VALUES(:name, :surname, :birthdate, :email)');
-        $stmt->bindValue(':name', $this->name);
-        $stmt->bindValue(':surname', $this->surname);
-        $stmt->bindValue(':birthdate', $this->birthdate);
-        $stmt->bindValue(':email', $this->email);
-        return $stmt->execute();
+        $sql = $db->prepare('INSERT INTO empresas (nombre, direccion, telefono, email) VALUES(:nombre, :direccion, :telfono, :email)');
+        $nombre = $_POST["nombre"];
+        $sql->bindValue(':nombre', $nombre);
+        $direccion = $_POST["direccion"];
+        $sql->bindValue(':direccion', $direccion);
+        $telefono = $_POST["telefono"];
+        $sql->bindValue(':telefono', $telefono);
+        $email = $_POST["email"];
+        $sql->bindValue(':email', $email);
+        $sql->execute();
     }
     public function deletePersona()
     {
         $db = model::db();
-        $stmt = $db->prepare('DELETE FROM users WHERE id = :id');
-        $stmt->bindValue(':id', $this->id);
-        return $stmt->execute();
+        $stmt = $db->prepare('DELETE FROM personas WHERE nombre = :nombre');
+        $stmt->bindValue(':nombre', $_POST["nombre"]);
+        $stmt->execute();
     }
     public function deleteEmpresa()
     {
         $db = model::db();
-        $stmt = $db->prepare('DELETE FROM users WHERE id = :id');
-        $stmt->bindValue(':id', $this->id);
+        $stmt = $db->prepare('DELETE FROM empresas WHERE nombre = :nombre');
+        $stmt->bindValue(':nombre', $_POST["nombre"]);
         return $stmt->execute();
     }
     public function alterPersona()
     {
         $db = model::db();
-        $stmt = $db->prepare('UPDATE users SET name = :name, surname = :surname, birthdate = :birthdate, email = :email WHERE id = :id');
-        $stmt->bindValue(':id', $this->id);
-        $stmt->bindValue(':name', $this->name);
-        $stmt->bindValue(':surname', $this->surname);
-        $stmt->bindValue(':birthdate', $this->birthdate);
-        $stmt->bindValue(':email', $this->email);
-        return $stmt->execute();
+        $nombre = $_POST["nombre"];
+        if($this->find_persona($nombre)){
+            header("Location:../views/home.html");
+        } else {
+            $sql = $db->prepare('UPDATE personas SET nombre = :nombre, apellidos = :apellidos, direccion = :direccion, telefono, = :telfono');
+            $sql->bindValue(':nombre', $nombre);
+            $apellidos = $_POST["apellidos"];
+            $sql->bindValue(':apellidos', $apellidos);
+            $direccion = $_POST["direccion"];
+            $sql->bindValue(':direccion', $direccion);
+            $telefono = $_POST["telefono"];
+            $sql->bindValue(':telefono', $telefono);
+            $sql->execute();
+        }
+        
     }
     public function alterEmpresa()
     {
         $db = model::db();
-        $stmt = $db->prepare('UPDATE users SET name = :name, surname = :surname, birthdate = :birthdate, email = :email WHERE id = :id');
-        $stmt->bindValue(':id', $this->id);
-        $stmt->bindValue(':name', $this->name);
-        $stmt->bindValue(':surname', $this->surname);
-        $stmt->bindValue(':birthdate', $this->birthdate);
-        $stmt->bindValue(':email', $this->email);
-        return $stmt->execute();
+        $nombre = $_POST["nombre"];
+        if($this->find_persona($nombre)){
+            header("Location:../views/home.html");
+        } else {
+            $sql = $db->prepare('UPDATE personas SET nombre = :nombre, apellidos = :apellidos, direccion = :direccion, telefono, = :telfono');
+            $sql->bindValue(':nombre', $nombre);
+            $apellidos = $_POST["apellidos"];
+            $sql->bindValue(':apellidos', $apellidos);
+            $direccion = $_POST["direccion"];
+            $sql->bindValue(':direccion', $direccion);
+            $telefono = $_POST["telefono"];
+            $sql->bindValue(':telefono', $telefono);
+            $sql->execute();
+        }
     }
 }
